@@ -1,0 +1,85 @@
+iris <- read.csv("~/00_mag/ASR/2/Datasets/iris.txt", header=FALSE)
+library("car")
+names(iris) = c("Sepal_len", "Sepal_wid", "Petal_len", "Petal_wid", "Class")
+
+iris_by_class = split(iris, iris$Class)
+
+check_norm = function (dat, desc) {
+  hist(dat, main = desc)
+  qqPlot(dat, main = desc)
+  print(desc)
+  print(shapiro.test(dat))
+}
+
+#Checking normality
+for (ir in iris_by_class) {
+  cl = unique(ir$Class)
+  check_norm(ir$Sepal_len, paste("Sepal length of", cl))
+  check_norm(ir$Petal_len, paste("Petal length of", cl))
+}
+
+test_dat = function(var, dat, test_func) {
+  vec = c()
+  for (d1 in dat)
+    for (d2 in dat) {
+      val1 = d1[[var]]
+      val2 = d2[[var]]
+      vec = append(vec, wilcox.test(val1, val2)$p.value > 0.05)
+    }
+  return(vec)
+}
+
+#Distributions equivalence
+to_check = names(iris)[-5]
+dis_checks = list(1,2,3,4)
+names(dis_checks) = to_check
+
+
+
+for (var in to_check) {
+  vec = c()
+  for (ir1 in iris_by_class) {
+    for (ir2 in iris_by_class) {
+      d1 = ir1[[var]]
+      d2 = ir2[[var]]
+      vec = append(vec, wilcox.test(d1, d2)$p.value > 0.05)
+    }
+  }
+  dis_checks[[var]] = vec
+}
+
+print(names(dis_checks))
+for (c in dis_checks) {
+  print(matrix(c, nrow = length(iris_by_class)))
+}
+
+#Mean and var equivalence
+m_checks = list(1,2,3,4)
+v_checks = list(1,2,3,4)
+names(m_checks) = to_check
+names(v_checks) = to_check
+
+for (var in to_check) {
+  m_vec = c()
+  v_vec = c()
+  for (ir1 in iris_by_class) {
+    for (ir2 in iris_by_class) {
+      d1 = ir1[[var]]
+      d2 = ir2[[var]]
+      m_vec = append(m_vec, t.test(d1, d2)$p.value > 0.05)
+      v_vec = append(v_vec, var.test(d1, d2)$p.value > 0.05)
+    }
+  }
+  m_checks[[var]] = m_vec
+  v_checks[[var]] = v_vec
+}
+
+print(names(checks))
+for (c in m_checks) {
+  print(matrix(c, nrow = length(iris_by_class)))
+}
+
+print(names(checks))
+for (c in v_checks) {
+  print(matrix(c, nrow = length(iris_by_class)))
+}
