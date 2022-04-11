@@ -1,0 +1,5 @@
+Data from 1993 or earlier
+x1=tar (mg)
+x2=nicotine (mg)
+x3=weight (g)
+y=carbon monoxide (mg)
