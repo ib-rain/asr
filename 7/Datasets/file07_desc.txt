@@ -1,0 +1,24 @@
+#  file07.txt
+#
+#  Reference:
+#
+#    John Hartigan,
+#    Clustering Algorithms,
+#    Wiley, 1975.
+#    ISBN 0-471-35645-X
+#    LC: QA278.H36
+#    Dewey: 519.5'3
+#
+#  Country is the name of the country.
+#
+#  Year is the year in which the data was computed.
+#
+#  M0, M25, M50 and M75 are the remaining life expectancies for a male
+#  of ages 0, 25, 50 and 75.
+#
+#  F0, F25, F50 and F75 are the remaining life expectancies for a female
+#  of ages 0, 25, 50 and 75.
+#
+"Expectations of Life by Country, Age and Sex, Hartigan page 101"
+8 columns
+31 rows
